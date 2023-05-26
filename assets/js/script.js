@@ -1,78 +1,209 @@
-const container = document.getElementById("events");
-let events = [];
-let tableHeaders = [];
+// /* Variables */
+// const allEvents = document.getElementById("events");
 
-fetch('http://localhost:3000/api/events/')
-    .then((response) => response.json())
-    .then((json) =>{
-        console.log(json);
-        createObject(json);
-    });
-
-function createObject(eventsRaw){
-    // console.log(eventsRaw[0].dates[0].attendees[0].name);
-    // console.log(eventsRaw[0].dates[0].date);
-    events = eventsRaw.map((event)=>{
-        return {
-            'title':event.name,
-            'description':event.description,
-            'dates':[...event.dates],
-        }
-    })
-    console.log(events);
-    displayEvents(events);
-}
-
-function displayEvents(events) {
-    events.forEach(event => {
-        const eventDiv = document.createElement("div");
-        eventDiv.innerHTML = `
-            <h2 class="events__title">${event.title}</h2>
-            <p class="events__description">${event.description}</p>
-            <table class="events__attendees">
-                <thead class="events__attendees__header">
-                    <tr>
-                        <th>Attendees</th>
-                        ${event.dates.map(eventDate => `<th>${eventDate.date}</th>`).join('')}
-                    </tr>
-                </thead>
-                <tbody>
-                    ${event.dates.map(eventDate => eventDate.attendees.map(attend => `
-                    <tr>
-                        <td>${attend.name}</td>
-                        <td>${attend.available}</td>
-                    </tr>
-                    `).join('')).join('')}
-                </tbody>
-            </table>`;
-
-        container.appendChild(eventDiv);
-    });
-}
-
-// function displayEvents(events) {
-//     events.forEach(event => {
-//         const eventDiv = document.createElement("div");
-//         eventDiv.innerHTML = `
-//             <h2 class="events__title">${event.title}</h2>
-//             <p class="events__description">${event.description}</p>
-//             <table class="events__attendees">
-//                 <thead class="events__attendees__header">
-//                     <tr>
-//                         <th>Attendees</th>
-//                         ${event.dates.map(eventDate => `<th>${eventDate.date}</th>`).join('')}
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     ${event.dates.map(eventDate => eventDate.attendees.map(attend => `
-//                     <tr>
-//                         <td>${attend.name}</td>
-//                         <td>${attend.available}</td>
-//                     </tr>
-//                     `).join('')).join('')}
-//                 </tbody>
-//             </table>`;
-
-//         container.appendChild(eventDiv);
+// /* Fonctions */
+// // Récupération des informations depuis l'API
+// function fetchData() {
+//   fetch("http://localhost:3000/api/events/")
+//     .then((response) => response.json())
+//     .then((json) => {
+//       console.log(json);
+//       displayEvents(json);
 //     });
 // }
+
+// // Création de l'html et affichage des des tableaux contenant les évènements
+// function displayEvents(data) {
+//   data.forEach((event) => {
+//     const eventDiv = document.createElement("div");
+
+//     eventDiv.innerHTML = `<h2 class="events__title">${event.name}</h2><p class="events__description">${event.description}</p><p class="events__author">${event.author}</p><button class="delete-button" data-id="${event.id}">Delete Event</button>`;
+//     const table = document.createElement("table");
+//     const thead = document.createElement("thead");
+//     const tbody = document.createElement("tbody");
+//     const tr = document.createElement("tr");
+//     const th = document.createElement("th");
+//     th.textContent = "Attendees\\Dates";
+//     tr.appendChild(th);
+//     event.dates.forEach((date) => {
+//         const th = document.createElement("th");
+//         th.textContent = date.date;
+//         tr.appendChild(th);
+//     });
+//     thead.appendChild(tr);
+//     table.appendChild(thead);
+//     event.dates[0].attendees.forEach((attendee) => {
+//         const tr = document.createElement("tr");
+//         const td = document.createElement("td");
+//         td.textContent = attendee.name;
+//         tr.appendChild(td);
+//         event.dates.forEach((date) => {
+//             const td = document.createElement("td");
+//             td.textContent = date.attendees.find(
+//                 (a) => a.name === attendee.name
+//             ).available;
+//             tr.appendChild(td);
+//         });
+//         tbody.appendChild(tr);
+//     });
+//     table.appendChild(tbody);
+//     eventDiv.appendChild(table);
+//     allEvents.appendChild(eventDiv);
+
+//     const deleteButton = eventDiv.querySelector(".delete-button");
+//     deleteButton.addEventListener("click", () => {
+//         const eventId = deleteButton.getAttribute("data-id");
+//         deleteEvent(eventId, eventDiv);
+//     });
+//   });
+// }
+
+// // Fonction de suppression
+// function deleteEvent(eventId, eventDiv) {
+//     fetch(`http://localhost:3000/api/events/${eventId}`, { method: "DELETE" })
+//     .then((response) => {
+//         if (response.ok) {
+//             eventDiv.remove();
+//         } else {
+//             console.error("Erreur lors de la suppression de l'événement");
+//         }
+//     })
+//     .catch((error) => {
+//         console.error("Erreur lors de la suppression de l'événement :", error);
+//     });
+// }
+
+// /* Appels de fonctions */
+// fetchData();
+
+
+/* Evenements */
+
+
+/* Variables */
+const allEvents = document.getElementById("events");
+
+/* Fonctions */
+// Récupération des informations depuis l'API
+function fetchData() {
+    fetch("http://localhost:3000/api/events/")
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json);
+        displayEvents(json);
+    });
+}
+
+// Création de l'html et affichage des tableaux contenant les événements
+function displayEvents(data) {
+    data.forEach((event) => {
+        const eventDiv = document.createElement("div");
+
+        eventDiv.innerHTML = `<h2 class="events__title">${event.name}</h2><p class="events__description">${event.description}</p><p class="events__author">${event.author}</p><button class="delete-button" data-id="${event.id}">Delete Event</button>`;
+        const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+        const tr = document.createElement("tr");
+        const th = document.createElement("th");
+        th.textContent = "Attendees\\Dates";
+        tr.appendChild(th);
+        event.dates.forEach((date) => {
+            const th = document.createElement("th");
+            th.textContent = date.date;
+            tr.appendChild(th);
+        });
+        thead.appendChild(tr);
+        table.appendChild(thead);
+        event.dates[0].attendees.forEach((attendee) => {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.textContent = attendee.name;
+            tr.appendChild(td);
+            event.dates.forEach((date) => {
+                const td = document.createElement("td");
+                td.textContent = date.attendees.find((a) => a.name === attendee.name).available;
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        eventDiv.appendChild(table);
+        allEvents.appendChild(eventDiv);
+
+        const deleteButton = eventDiv.querySelector(".delete-button");
+        deleteButton.addEventListener("click", () => {
+            const eventId = deleteButton.getAttribute("data-id");
+            deleteEvent(eventId, eventDiv);
+        });
+
+        const form = document.createElement("form");
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.placeholder = "Nom du participant";
+        form.appendChild(nameInput);
+
+        const buttonDiv = document.createElement("div");
+        event.dates.forEach((date) => {
+            const yesButton = document.createElement("button");
+            yesButton.textContent = "Oui";
+            yesButton.addEventListener("click", () => {
+                const participantName = nameInput.value;
+                updateParticipantAvailability(event.name, participantName, date.date, true);
+            });
+            buttonDiv.appendChild(yesButton);
+
+            const noButton = document.createElement("button");
+            noButton.textContent = "Non";
+            noButton.addEventListener("click", () => {
+                const participantName = nameInput.value;
+                updateParticipantAvailability(event.name, participantName, date.date, false);
+            });
+            buttonDiv.appendChild(noButton);
+        });
+
+        form.appendChild(buttonDiv);
+        eventDiv.appendChild(form);
+    });
+}
+
+// Fonction de suppression
+function deleteEvent(eventId, eventDiv) {
+    fetch(`http://localhost:3000/api/events/${eventId}`, { method: "DELETE" })
+    .then((response) => {
+        if (response.ok) {
+            eventDiv.remove();
+        } else {
+            console.error("Erreur lors de la suppression de l'événement");
+        }
+    })
+    .catch((error) => {
+        console.error("Erreur lors de la suppression de l'événement :", error);
+    });
+}
+
+// Mise à jour de la disponibilité du participant
+function updateParticipantAvailability(eventName, participantName, date, availability) {
+    fetch(`http://localhost:3000/api/events/${eventName}/participants`, {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        name: participantName,
+        date: date,
+        available: availability
+    })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json);
+    })
+    .catch((error) => {
+        console.error(
+            "Erreur lors de la mise à jour de la disponibilité du participant :", error
+        );
+    });
+}
+
+/* Appels de fonctions */
+fetchData();
