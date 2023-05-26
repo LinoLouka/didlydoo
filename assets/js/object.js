@@ -12,6 +12,7 @@ export function createEvent() {
         const myDate = document.getElementById("date_input");
         initiateCurrentDate(myDate);
         displayDate(myDate);
+        deleteDate();
     }
     btn.addEventListener("click", createEventButton);
 }
@@ -25,20 +26,30 @@ function initiateCurrentDate(inputDate) {
     inputDate.min = formattedDate;
 }
 function displayDate(inputDate) {
-    document.addEventListener("change", (e) => {
-        console.log(inputDate.value);
+    inputDate.addEventListener("change", (e) => {
+        let span = document.createElement("span");
+        span.setAttribute("class", "timeChoice");
+        span.textContent = inputDate.value;
         let form = document.querySelector("form");
-        form.innerHTML += `<span>${inputDate.value}</span>`;
+        form.appendChild(span);
     });
 }
-// function displayDate(inputDate) {
-//     // console.log(inputDate.value);
-//     inputDate.addEventListener("change", (e) => {
-//         let form = document.querySelector("form");
-//         console.log(inputDate.value);
-//         form.innerHTML += `<span>${inputDate.value}</span>`;
-//     });
-// }
-{
-    /* <dialog><form></form></dialog> */
+function deleteDate() {
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("timeChoice")) {
+            console.log("okok");
+            console.log(e.target);
+            e.target.remove();
+        }
+    });
 }
+// function lenghtOfInputs(input) {
+//     const inputs= document.querySelectorAll("input") ;
+//     inputs.forEach((input)=>{
+//         // let maxCharacters=
+//         if (in==true){
+//             return true
+//         } else return false, console.log(" There are more than 256 characters !");
+//     })
+// }
+/* <dialog><form></form></dialog> */
