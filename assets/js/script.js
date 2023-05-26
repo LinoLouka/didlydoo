@@ -13,7 +13,7 @@ function displayEvents(data) {
   data.forEach((event) => {
     const eventDiv = document.createElement("div");
 
-    eventDiv.innerHTML = `<h2 class="events__title">${event.name}</h2><p class="events__description">${event.description}</p><p class="events__author">${event.author}</p><button class="delete-button">Delete Event</button>`;
+    eventDiv.innerHTML = `<h2 class="events__title">${event.name}</h2><p class="events__description">${event.description}</p><p class="events__author">${event.author}</p><button class="delete-button" data-id="${event.id}">Delete Event</button>`;
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");
@@ -48,13 +48,24 @@ function displayEvents(data) {
 
     const deleteButton = eventDiv.querySelector(".delete-button");
     deleteButton.addEventListener("click", () => {
-      deleteEvent(eventDiv);
+      const eventId = deleteButton.getAttribute("data-id");
+      deleteEvent(eventId, eventDiv);
     });
   });
 }
-
-function deleteEvent(eventDiv) {
-  eventDiv.parentNode.removeChild(eventDiv);
+// Fonction de suppression
+function deleteEvent(eventId, eventDiv) {
+  fetch(`http://localhost:3000/api/events/${eventId}`, { method: "DELETE" })
+    .then((response) => {
+      if (response.ok) {
+        eventDiv.remove(); // Supprimer l'élément HTML correspondant
+      } else {
+        console.error("Erreur lors de la suppression de l'événement");
+      }
+    })
+    .catch((error) => {
+      console.error("Erreur lors de la suppression de l'événement :", error);
+    });
 }
 
 fetchData();
