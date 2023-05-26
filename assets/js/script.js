@@ -1,78 +1,60 @@
-const container = document.getElementById("events");
-let events = [];
-let tableHeaders = [];
+const allEvents = document.getElementById("events");
 
-fetch('http://localhost:3000/api/events/')
+function fetchData() {
+  fetch("http://localhost:3000/api/events/")
     .then((response) => response.json())
-    .then((json) =>{
-        console.log(json);
-        createObject(json);
-    });
-
-function createObject(eventsRaw){
-    // console.log(eventsRaw[0].dates[0].attendees[0].name);
-    // console.log(eventsRaw[0].dates[0].date);
-    events = eventsRaw.map((event)=>{
-        return {
-            'title':event.name,
-            'description':event.description,
-            'dates':[...event.dates],
-        }
-    })
-    console.log(events);
-    displayEvents(events);
-}
-
-function displayEvents(events) {
-    events.forEach(event => {
-        const eventDiv = document.createElement("div");
-        eventDiv.innerHTML = `
-            <h2 class="events__title">${event.title}</h2>
-            <p class="events__description">${event.description}</p>
-            <table class="events__attendees">
-                <thead class="events__attendees__header">
-                    <tr>
-                        <th>Attendees</th>
-                        ${event.dates.map(eventDate => `<th>${eventDate.date}</th>`).join('')}
-                    </tr>
-                </thead>
-                <tbody>
-                    ${event.dates.map(eventDate => eventDate.attendees.map(attend => `
-                    <tr>
-                        <td>${attend.name}</td>
-                        <td>${attend.available}</td>
-                    </tr>
-                    `).join('')).join('')}
-                </tbody>
-            </table>`;
-
-        container.appendChild(eventDiv);
+    .then((json) => {
+      console.log(json);
+      displayEvents(json);
     });
 }
 
-// function displayEvents(events) {
-//     events.forEach(event => {
-//         const eventDiv = document.createElement("div");
-//         eventDiv.innerHTML = `
-//             <h2 class="events__title">${event.title}</h2>
-//             <p class="events__description">${event.description}</p>
-//             <table class="events__attendees">
-//                 <thead class="events__attendees__header">
-//                     <tr>
-//                         <th>Attendees</th>
-//                         ${event.dates.map(eventDate => `<th>${eventDate.date}</th>`).join('')}
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                     ${event.dates.map(eventDate => eventDate.attendees.map(attend => `
-//                     <tr>
-//                         <td>${attend.name}</td>
-//                         <td>${attend.available}</td>
-//                     </tr>
-//                     `).join('')).join('')}
-//                 </tbody>
-//             </table>`;
+function displayEvents(data) {
+  data.forEach((event) => {
+    const eventDiv = document.createElement("div");
 
-//         container.appendChild(eventDiv);
-//     });
-// }
+    eventDiv.innerHTML = `<h2 class="events__title">${event.name}</h2><p class="events__description">${event.description}</p><p class="events__author">${event.author}</p><button class="delete-button">Delete Event</button>`;
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+    const tr = document.createElement("tr");
+    const th = document.createElement("th");
+    th.textContent = "Attendees\\Dates";
+    tr.appendChild(th);
+    event.dates.forEach((date) => {
+      const th = document.createElement("th");
+      th.textContent = date.date;
+      tr.appendChild(th);
+    });
+    thead.appendChild(tr);
+    table.appendChild(thead);
+    event.dates[0].attendees.forEach((attendee) => {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.textContent = attendee.name;
+      tr.appendChild(td);
+      event.dates.forEach((date) => {
+        const td = document.createElement("td");
+        td.textContent = date.attendees.find(
+          (a) => a.name === attendee.name
+        ).available;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    eventDiv.appendChild(table);
+    allEvents.appendChild(eventDiv);
+
+    const deleteButton = eventDiv.querySelector(".delete-button");
+    deleteButton.addEventListener("click", () => {
+      deleteEvent(eventDiv);
+    });
+  });
+}
+
+function deleteEvent(eventDiv) {
+  eventDiv.parentNode.removeChild(eventDiv);
+}
+
+fetchData();
