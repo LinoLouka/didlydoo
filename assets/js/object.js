@@ -13,7 +13,7 @@ export function createEvent() {
         initiateCurrentDate(myDate);
         displayDate(myDate);
         deleteDate();
-        submit.addEventListener("click", lenghtOfInputs);
+        submit.addEventListener("click", getInput);
     }
     btn.addEventListener("click", createEventButton);
 }
@@ -43,10 +43,22 @@ function deleteDate() {
     });
 }
 
-function lenghtOfInputs(event) {
-    event.preventDefault();
+function getInput(event) {
     const textInputs = document.querySelectorAll(".text_input");
-    textInputs.forEach((input) => {
+    event.preventDefault();
+    if (verifyInputs(textInputs)) {
+        let objectEvent = createObjectEvent();
+        insertElementObject(objectEvent, textInputs);
+        console.log(objectEvent);
+    } else {
+        console.log("heuu");
+    }
+}
+
+function verifyInputs(inputs) {
+    // event.preventDefault();
+    let isValid = true;
+    inputs.forEach((input) => {
         const span = document.querySelector(`#error_${input.name}`);
         if (input.value.trim() !== "") {
             if (input.value.length <= 256) {
@@ -54,11 +66,58 @@ function lenghtOfInputs(event) {
             } else {
                 span.innerHTML = "There are more than 256 characters";
                 span.style.color = "red";
+                isValid = false;
             }
         } else {
             span.innerHTML = "It's empty !";
             span.style.color = "red";
+            isValid = false;
         }
+    });
+    return isValid;
+}
+
+function createObjectEvent() {
+    let objectEvent = new Object();
+    objectEvent = {
+        id: "",
+        name: "",
+        description: "",
+        author: "",
+        dates: "",
+        attendees: "",
+        created_at: "",
+        num_modification: "",
+        last_modification: "",
+    };
+    // objectEvent.id = "premierId01";
+    // objectEvent.attendees = ["name", "dates"]; //pour visualiser, A supprimer
+    console.log(objectEvent);
+    // console.log(objectEvent.attendees);
+    return objectEvent;
+}
+function insertElementObject(defaultObject, inputs) {
+    inputs.forEach((input) => {
+        switch (input.name) {
+            case "id":
+                defaultObject.id = input.value;
+                break;
+            case "name":
+                defaultObject.name = input.value;
+                break;
+            case "description":
+                defaultObject.description = input.value;
+                break;
+            case "author":
+                defaultObject.author = input.value;
+                break;
+            case "dates":
+                defaultObject.dates = input.value;
+                break;
+            default:
+                break;
+        }
+        console.log(input.value + " " + input.name);
     });
 }
 
