@@ -1,13 +1,13 @@
 /* Reset CSS */
 * {
+  @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Global styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Lobster", cursive;
   background-color: #f5f5f5;
 }
 
@@ -17,7 +17,6 @@ body {
   padding: 20px;
 }
 
-/* Header */
 header {
   background-color: #333;
   color: #fff;
@@ -44,7 +43,6 @@ header {
   color: #333;
 }
 
-/* Event details */
 #event-details {
   background-color: #333;
   padding: 20px;
@@ -80,9 +78,12 @@ header {
   cursor: pointer;
 }
 
-/* Events */
 .events {
   margin-top: 20px;
+}
+
+.events__display {
+  margin: 10px;
 }
 
 .events__title {
@@ -108,13 +109,14 @@ header {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-right: 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 table th,
