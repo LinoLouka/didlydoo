@@ -145,18 +145,20 @@ function displayEvents(data) {
         const buttonDiv = document.createElement("div");
         event.dates.forEach((date) => {
             const yesButton = document.createElement("button");
-            yesButton.textContent = "Oui";
-            yesButton.addEventListener("click", () => {
+            yesButton.textContent = "V";
+            yesButton.addEventListener("click", (e) => {
+                e.preventDefault();
                 const participantName = nameInput.value;
-                updateParticipantAvailability(event.name, participantName, date.date, true);
+                updateParticipantAvailability(event.id, event.name, participantName, date.date, true);
             });
             buttonDiv.appendChild(yesButton);
 
             const noButton = document.createElement("button");
-            noButton.textContent = "Non";
-            noButton.addEventListener("click", () => {
+            noButton.textContent = "X";
+            noButton.addEventListener("click", (e) => {
+                e.preventDefault();
                 const participantName = nameInput.value;
-                updateParticipantAvailability(event.name, participantName, date.date, false);
+                updateParticipantAvailability(event.id, event.name, participantName, date.date, false);
             });
             buttonDiv.appendChild(noButton);
         });
@@ -182,26 +184,64 @@ function deleteEvent(eventId, eventDiv) {
 }
 
 // Mise à jour de la disponibilité du participant
-function updateParticipantAvailability(eventName, participantName, date, availability) {
-    fetch(`http://localhost:3000/api/events/${eventName}/participants`, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        name: participantName,
-        date: date,
-        available: availability
-    })
-    })
+function updateParticipantAvailability(eventId, eventName, participantName, upDate, availability) {
+    fetch("http://localhost:3000/api/events/")
     .then((response) => response.json())
     .then((json) => {
-        console.log(json);
-    })
-    .catch((error) => {
-        console.error(
-            "Erreur lors de la mise à jour de la disponibilité du participant :", error
-        );
+        json.forEach(obj => {
+            if(obj.id === eventId){
+                obj.dates.forEach(apiDate => {
+                    apiDate.attendees.forEach(attend => {
+                        if(attend.name === participantName){
+                            console.log(eventId, eventName, participantName, upDate, availability);
+                            fetch(`http://localhost:3000/api/events/${eventId}`, {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    name: eventName, 
+                                    // attendees: [ dates: [ { date: upDate, available: availability } ] ]
+                                    dates: [ { date: upDate, available: availability } ]
+                                })
+                            })
+                            .then((response) => response.json())
+                            .then((json) => {
+                                console.log(json);
+                            })
+                            .catch((error) => {
+                                console.error(
+                                    "Erreur lors de la mise à jour de la disponibilité du participant :", error
+                                );
+                            });
+                        }
+                    });
+                    // fetch(`http://localhost:3000/api/events/${eventId}/attendees`, {
+                    //     method: "POST",
+                    //     headers: {
+                    //         "Content-Type": "application/json"
+                    //     },
+                    //     body: JSON.stringify({
+                    //         name: participantName,
+                    //         date: date,
+                    //         available: availability
+                    //     })
+                    // })
+                    // .then((response) => response.json())
+                    // .then((json) => {
+                    //     console.log(json);
+                    // })
+                    // .catch((error) => {
+                    //     console.error(
+                    //         "Erreur lors de la mise à jour de la disponibilité du participant :", error
+                    //     );
+                    // });
+                });
+            }
+            else{
+                console.log("ko");
+            }
+        });
     });
 }
 
