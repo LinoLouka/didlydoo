@@ -1,21 +1,18 @@
+const submitBtn = document.getElementById("submit");
 export function createEvent() {
-    const btn = document.querySelector(".header__btn");
+    // const btn = document.querySelector(".header__btn");
     // header.innerHTML += `<dialog id="dialog"><form><label>Event's author</label><input></input><label>Event's title</label><input></input><label>Event's description</label><textarea name="label_input" id="label_input" cols="30" rows="10" class="task_input_description"></textarea><input type="date" name="" id="date_input"></form></dialog>`;
-
-    function createEventButton() {
-        // console.log(btn);
-        // let dialog = document.getElementById("dialog");
-        // dialog.showModal();
-        // dialog.showModal();
-        const header = document.querySelector("header");
-        header.innerHTML += `<section id="dialog"><form><label for="name">Event's author<span id="error_author"></span></label><input type="text" name="author" class="text_input"></input><label for="name">Event's name<span id="error_name"></span></label><input type="text" name="name" class="text_input"></input><label for ="description">Event's description<span id="error_description"></span></label><textarea name="description" class="text_input" id="description_input" cols="30" rows="10"  class="text_input"></textarea><input type="date" name="date"class="text_input"  id="date_input"><div id="date_output"></div><span id="error_date"></span><button type="submit" id="submit">Create event</button></form></section>`;
-        const myDate = document.getElementById("date_input");
-        initiateCurrentDate(myDate);
-        displayDate(myDate);
-        deleteDate();
-        submit.addEventListener("click", getInput);
-    }
-    btn.addEventListener("click", createEventButton);
+    // console.log(btn);
+    // let dialog = document.getElementById("dialog");
+    // dialog.showModal();
+    // dialog.showModal();
+    const header = document.querySelector("header");
+    header.innerHTML += `<section id="dialog"><form><label for="name">Event's author<span id="error_author"></span></label><input type="text" name="author" class="text_input"></input><label for="name">Event's name<span id="error_name"></span></label><input type="text" name="name" class="text_input"></input><label for ="description">Event's description<span id="error_description"></span></label><textarea name="description" class="text_input" id="description_input" cols="30" rows="10"  class="text_input"></textarea><input type="date" name="date"class="text_input"  id="date_input"><div id="date_output"></div><span id="error_date"></span><button type="submit" id="submit">Create event</button></form></section>`;
+    const myDate = document.getElementById("date_input");
+    initiateCurrentDate(myDate);
+    displayDate(myDate);
+    deleteDate();
+    submit.addEventListener("click", getInput);
 }
 function currentDate() {
     const today = new Date();
@@ -52,11 +49,10 @@ function deleteDate() {
 /* Get all the inputs from the form */
 function getInput(event) {
     const textInputs = document.querySelectorAll(".text_input");
-    const allInputs = document.querySelectorAll("input");
     const dateOutputContainer = document.querySelector("date_output");
     const dateOutput = document.querySelectorAll(".timeChoice");
     event.preventDefault();
-    if (verifyInputs(allInputs, textInputs, dateOutput)) {
+    if (verifyInputs(textInputs, dateOutput)) {
         let objectEvent = createObjectEvent();
         insertElementObject(
             objectEvent,
@@ -65,6 +61,14 @@ function getInput(event) {
             dateOutputContainer
         );
         console.log(objectEvent);
+        // console.log(date_outputs.value);
+
+        fetchDataPost(
+            textInputs[1].value,
+            textInputs[0].value,
+            textInputs[2].value,
+            objectEvent.dates
+        );
     }
     // else {
     //     console.log("heuu");
@@ -72,14 +76,8 @@ function getInput(event) {
 }
 
 /* Check if the inputs are filled and have less than 256 characters */
-function verifyInputs(
-    all_inputs,
-    text_inputs,
-    date_outputs,
-    dateOutputContainer
-) {
+function verifyInputs(text_inputs, date_outputs, dateOutputContainer) {
     let isValid = true;
-
     text_inputs.forEach((text_input) => {
         const span = document.querySelector(`#error_${text_input.name}`);
         if (text_input.name !== "date") {
@@ -155,3 +153,21 @@ function createId() {
     return newId;
 }
 /* <dialog><form></form></dialog> */
+
+function fetchDataPost(name, author, description, dates) {
+    fetch("http://localhost:3000/api/events/", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: name,
+            author: author,
+            description: description,
+            dates: dates,
+        }),
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json);
+            // createEvent(json);
+        });
+}

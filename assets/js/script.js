@@ -1,5 +1,6 @@
 import { createEvent } from "./object.js";
 const allEvents = document.getElementById("events");
+const btn = document.querySelector(".header__btn");
 
 function fetchData() {
     fetch("http://localhost:3000/api/events/")
@@ -48,4 +49,16 @@ function displayEvents(data) {
 }
 
 fetchData();
-createEvent();
+
+function fetchDataPost() {
+    fetch("http://localhost:3000/api/events/", {
+        method: "post",
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json);
+            // createEvent(json);
+        });
+}
+
+btn.addEventListener("click", createEvent);
