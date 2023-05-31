@@ -98,7 +98,7 @@ function verifyInputs(text_inputs, date_outputs, dateOutputContainer) {
             if (date_outputs.length !== 0) {
                 span.innerHTML = "";
             } else {
-                span.innerHTML = "ther is no date !";
+                span.innerHTML = "there is no date !";
                 span.style.color = "red";
                 isValid = false;
             }
@@ -139,19 +139,19 @@ function insertElementObject(defaultObject, text_inputs, dateInputs) {
     });
     const todayDate = currentDate();
     defaultObject.created_at = todayDate;
-    const newid = createId();
-    defaultObject.id = newid;
+    // const newid = createId();
+    // defaultObject.id = newid;
 }
 
 /* Create n id per event */
-function createId() {
-    const id = "38b643aeb883";
-    const lastThree = id.substr(-3); // extract last three characters
-    let num = parseInt(lastThree) + 1; // increment by 1
-    let newLastThree = num.toString().padStart(3, "0"); // convert back to string and pad with leading zeros
-    let newId = id.slice(0, -3) + newLastThree; // concatenate back to original string
-    return newId;
-}
+// function createId() {
+//     const id = "38b643aeb883";
+//     const lastThree = id.substr(-3); // extract last three characters
+//     let num = parseInt(lastThree) + 1; // increment by 1
+//     let newLastThree = num.toString().padStart(3, "0"); // convert back to string and pad with leading zeros
+//     let newId = id.slice(0, -3) + newLastThree; // concatenate back to original string
+//     return newId;
+// }
 /* <dialog><form></form></dialog> */
 
 function fetchDataPost(name, author, description, dates) {
@@ -168,6 +168,6 @@ function fetchDataPost(name, author, description, dates) {
         .then((response) => response.json())
         .then((json) => {
             console.log(json);
-            // createEvent(json);
+            createEvent(json);
         });
 }
