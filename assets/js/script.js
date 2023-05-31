@@ -1,24 +1,7 @@
-// {
-//     "name": "Michou",
-//     "dates": [
-//       {
-//         "date": "2022-03-17",
-//         "available": true
-//       },
-//       {
-//         "date": "2022-03-18",
-//         "available": false
-//       },
-//       {
-//         "date": "2022-03-21",
-//         "available": true
-//       }
-//     ]
-//   },
-
-
 /* Variables */
+import { createEvent } from "./create_event.js";
 const allEvents = document.getElementById("events");
+const btn = document.querySelector(".header__btn");
 let updatedData = [];
 let nameArray = [];
 let newData = [];
@@ -324,3 +307,6 @@ function updateParticipantAvailability(eventId, participantName) {
 fetchData();
 console.log(nameArray);
 console.log(updatedData);
+
+/* Evènements */
+btn.addEventListener("click", createEvent);
