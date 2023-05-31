@@ -1,5 +1,57 @@
 [
   {
+    "id": "bcb24b6eaeca",
+    "name": "New event",
+    "author": "benja",
+    "description": "Hello it's our new event !",
+    "dates": [
+      "2023-06-01"
+    ],
+    "created_at": "2023-05-31T16:59:05.750Z",
+    "num_modification": 0,
+    "last_modification": "2023-05-31T16:59:05.750Z",
+    "attendees": []
+  },
+  {
+    "id": "b7c51f653284",
+    "name": "New event",
+    "author": "benjamin",
+    "description": "test3",
+    "dates": [
+      "2023-06-02"
+    ],
+    "created_at": "2023-05-31T15:39:08.600Z",
+    "num_modification": 0,
+    "last_modification": "2023-05-31T15:39:08.600Z",
+    "attendees": []
+  },
+  {
+    "id": "a1ea022dac8c",
+    "name": "New event",
+    "author": "benja",
+    "description": "test2",
+    "dates": [
+      "2023-06-02"
+    ],
+    "created_at": "2023-05-31T15:38:52.593Z",
+    "num_modification": 0,
+    "last_modification": "2023-05-31T15:38:52.593Z",
+    "attendees": []
+  },
+  {
+    "id": "59eee8dc269a",
+    "name": "New event",
+    "author": "benjamin",
+    "description": "test",
+    "dates": [
+      "2023-06-02"
+    ],
+    "created_at": "2023-05-31T15:38:32.370Z",
+    "num_modification": 0,
+    "last_modification": "2023-05-31T15:38:32.370Z",
+    "attendees": []
+  },
+  {
     "id": "f5b6564b5dc4",
     "name": "My sweet 16",
     "description": "I am going to be 16, let us all party together! Help me pick a date so we can go together",

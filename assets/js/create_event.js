@@ -1,4 +1,4 @@
-const submitBtn = document.getElementById("submit");
+// const submitBtn = document.getElementById("submit");
 export function createEvent() {
     // const btn = document.querySelector(".header__btn");
     // header.innerHTML += `<dialog id="dialog"><form><label>Event's author</label><input></input><label>Event's title</label><input></input><label>Event's description</label><textarea name="label_input" id="label_input" cols="30" rows="10" class="task_input_description"></textarea><input type="date" name="" id="date_input"></form></dialog>`;
@@ -12,6 +12,7 @@ export function createEvent() {
     initiateCurrentDate(myDate);
     displayDate(myDate);
     deleteDate();
+    const submit = document.getElementById("submit");
     submit.addEventListener("click", getInput);
 }
 function currentDate() {
