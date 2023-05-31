@@ -1,3 +1,139 @@
-table, th, td {
-  border: 1px solid black;
+/* Reset CSS */
+* {
+  @import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lobster", cursive;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.header__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.header__btn {
+  background-color: #fff;
+  color: #333;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#save_changes {
+  background-color: #fff;
+  color: #333;
+}
+
+#event-details {
+  background-color: #333;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+#event-details h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#edit-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#edit-form input,
+#edit-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+#edit-form button[type=submit] {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.events {
+  margin-top: 20px;
+}
+
+.events__display {
+  margin: 10px;
+}
+
+.events__title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.events__description {
+  margin-bottom: 10px;
+}
+
+.events__author {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.events__edit-button,
+.events__delete-button {
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th,
+table td {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  header {
+    padding: 10px;
+  }
+  #event-details {
+    padding: 10px;
+  }
 }
